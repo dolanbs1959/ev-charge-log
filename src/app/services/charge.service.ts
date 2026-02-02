@@ -11,11 +11,12 @@ export class ChargeService {
   constructor(private http: HttpClient) { }
 
 // Update your logCharge and getHistory functions in charge.service.ts
-logCharge(kwh: number, cost: number, date: string) {
+// Only send the fields the sheet actually needs: date and kWh.
+// The app will calculate/display cost locally using the rate input.
+logCharge(kwh: number, date: string) {
   const payload = {
     date: date,
-    kwh: kwh,
-    cost: cost 
+    kwh: kwh
   };
   return this.http.post(this.apiUrl, JSON.stringify(payload));
 }

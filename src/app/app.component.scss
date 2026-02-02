@@ -17,11 +17,11 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 350px; // Very large
-  height: 350px;
-  opacity: 0.15;
-  filter: drop-shadow(0 0 15px #ffda00);
-  animation: jitter 0.15s infinite;
+  width: 520px; // larger for prominence
+  height: 520px;
+  opacity: 0.6; // make background bolt more visible
+  filter: drop-shadow(0 0 36px #ffd84d);
+  animation: bolt-sway 5.6s ease-in-out infinite;
 }
 
 .bolt-accent {
@@ -30,9 +30,10 @@
   right: 5%;
   width: 100px;
   height: 100px;
-  opacity: 0.2;
-  filter: drop-shadow(0 0 10px #ffda00);
+  opacity: 0.85;
+  filter: drop-shadow(0 0 12px #ffda00);
   transform: rotate(15deg);
+  animation: accent-pulse 1.8s infinite ease-in-out;
 }
 
 @keyframes jitter {
@@ -41,11 +42,24 @@
   100% { transform: translate(-51%, -49%) scale(0.98); }
 }
 
+@keyframes bolt-sway {
+  0% { transform: translate(-50%, -50%) rotate(-2deg) scale(0.98); opacity: 0.09; }
+  30% { transform: translate(-48%, -52%) rotate(1deg) scale(1.02); opacity: 0.14; }
+  60% { transform: translate(-50%, -50%) rotate(-1deg) scale(1.00); opacity: 0.11; }
+  100% { transform: translate(-50%, -49%) rotate(2deg) scale(1.03); opacity: 0.14; }
+}
+
+@keyframes accent-pulse {
+  0% { transform: rotate(12deg) scale(0.94); opacity: 0.55; }
+  50% { transform: rotate(15deg) scale(1.08); opacity: 0.95; }
+  100% { transform: rotate(12deg) scale(0.94); opacity: 0.55; }
+}
+
 :host {
   display: block;
   min-height: 100vh;
-  // Flipped: Deep Ford Blue Gradient Background
-  background: radial-gradient(circle, #002c5f 0%, #000a1a 100%);
+  // Brighter Ford Blue / midnight gradient background so the page reads blue (not black)
+  background: radial-gradient(circle at 20% 10%, #0f62d0 0%, #0a4aa6 25%, #00376a 55%, #001533 90%);
   color: white;
   font-family: 'Segoe UI', Roboto, sans-serif;
 }
@@ -63,8 +77,16 @@ h1 {
   text-transform: uppercase;
   font-style: italic;
   font-weight: 900;
-  color: #ffda00; // Flash Yellow Header
-  text-shadow: 2px 2px 0px #8b0000; // Red shadow
+  color: #fff6a8; /* very bright yellow */
+  /* small dark stroke + warm glow to help legibility against varying backgrounds */
+  -webkit-text-stroke: 0.6px rgba(139,0,0,0.95);
+  text-shadow:
+    0 2px 0px rgba(139,0,0,0.9), /* solid red offset */
+    0 8px 26px rgba(255,220,90,0.45), /* warm yellow glow */
+    0 0 36px rgba(255,210,80,0.18); /* halo */
+  letter-spacing: 1px;
+  position: relative;
+  z-index: 6; /* ensure title sits above background layers */
 }
 
 .card {
@@ -88,8 +110,8 @@ h1 {
   border-radius: 20px;
   margin-bottom: 25px;
   // Flipped: Candy Apple Red Trim
-  border: 3px solid #8b0000; 
-  box-shadow: 0 0 15px rgba(255, 8, 0, 0.3);
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
 }
 
 label {
@@ -145,6 +167,71 @@ button {
   animation: speedforce 3s infinite alternate;
 }
 
+/* Bolt SVG layer styling */
+.bolt-layer {
+  vector-effect: non-scaling-stroke;
+}
+
+.bolt-glow {
+  fill: #ffd86a;
+  opacity: 0.75;
+  filter: url(#glow);
+  transform-origin: 50% 50%;
+  animation: glow-flicker 2.6s infinite ease-in-out;
+}
+
+.bolt-fill {
+  fill: #ffda00;
+  opacity: 0.95;
+  transform-origin: 50% 50%;
+}
+
+.bolt-core {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 2.4;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  opacity: 0.98;
+  filter: drop-shadow(0 0 10px rgba(255,255,255,0.85));
+  stroke-dasharray: 60;
+  stroke-dashoffset: 60;
+  animation: core-spark 1.2s ease-in-out infinite;
+}
+
+@keyframes glow-flicker {
+  0% { opacity: 0.45; transform: scale(0.995); }
+  20% { opacity: 0.65; transform: scale(1.01); }
+  40% { opacity: 0.50; transform: scale(0.99); }
+  60% { opacity: 0.70; transform: scale(1.02); }
+  100% { opacity: 0.55; transform: scale(1.00); }
+}
+
+@keyframes core-spark {
+  0% { stroke-dashoffset: 60; opacity: 0.0; }
+  20% { stroke-dashoffset: 30; opacity: 1.0; }
+  50% { stroke-dashoffset: 10; opacity: 1.0; }
+  100% { stroke-dashoffset: 60; opacity: 0.0; }
+}
+
+/* small bolt next to the title */
+.title-bolt {
+  width: 36px;
+  height: 36px;
+  margin-right: 10px;
+  vertical-align: middle;
+  fill: #ffda00;
+  filter: drop-shadow(0 0 6px #ffda00);
+  transform: translateY(4px);
+  animation: title-flash 2.4s infinite ease-in-out;
+}
+
+@keyframes title-flash {
+  0% { transform: translateY(4px) scale(0.95); opacity: 0.7; }
+  50% { transform: translateY(0px) scale(1.05); opacity: 1; }
+  100% { transform: translateY(4px) scale(0.95); opacity: 0.7; }
+}
+
 @keyframes speedforce {
   0% { opacity: 0.05; transform: translate(-50%, -50%) scale(0.95); }
   100% { opacity: 0.15; transform: translate(-50%, -50%) scale(1.05); }
@@ -153,4 +240,158 @@ button {
 .results strong {
   color: #ffda00;
   font-size: 28px;
+}
+
+/* cloud overlays removed to keep the background clear and Ford-blue */
+
+/* Entry message (replaces alert) */
+.entry-message {
+  position: relative;
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  margin: 8px auto 18px;
+  padding: 12px 22px;
+  border-radius: 40px;
+  background: linear-gradient(90deg, rgba(255,210,90,0.14), rgba(255,220,120,0.08));
+  color: #ffda00; /* Yellow text */
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(-6px) scale(0.98);
+  transition: opacity 180ms ease-out, transform 220ms ease-out;
+  z-index: 10;
+  pointer-events: none;
+  text-shadow: 0 2px 10px rgba(255,210,60,0.45);
+}
+.entry-message.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  box-shadow: 0 8px 40px rgba(255,200,50,0.14), inset 0 0 14px rgba(255,230,160,0.02);
+}
+.entry-message span { font-size: 18px; color: #ffda00; }
+.entry-bolt { width: 22px; height: 22px; opacity: 1; filter: drop-shadow(0 0 10px #ffd84d); fill: #ffda00; }
+
+/* Make cards more transparent so background thunderclouds read through */
+.card { background: rgba(0,0,0,0.18); border-radius: 16px; }
+
+/* reduce intrusive border glow for a nighttime look */
+.card { border: 1px solid rgba(255,255,255,0.04); }
+
+/* FLASH / STROBE overlay */
+.flash-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: white;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: screen;
+  z-index: 0;
+  transition: opacity 120ms linear;
+}
+
+/* When strobeActive is toggled on the container, make bolts brighten and show overlay */
+.container.strobe-active .bolt-main { opacity: 0.95; filter: drop-shadow(0 0 28px #ffd84d); }
+.container.strobe-active .bolt-fill { fill: #fff16a; opacity: 1; }
+.container.strobe-active .bolt-glow { opacity: 1; filter: url(#glow); }
+.container.strobe-active .bolt-core { opacity: 1; filter: drop-shadow(0 0 12px rgba(255,255,255,0.9)); stroke-width: 2.2; }
+.container.strobe-active .flash-overlay { opacity: 0.85; transition: none; }
+
+/* Sparks styling and animation */
+.sparks {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  right: 6%;
+  bottom: 10%;
+  z-index: 0;
+  overflow: visible;
+  pointer-events: none;
+  transform-origin: center;
+  opacity: 0;
+}
+.spark-line {
+  stroke: #fffbf0;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  opacity: 0;
+  transform-origin: 0px 0px;
+}
+
+/* When sparks should show (class on container), play animations */
+.container.spark-burst .sparks { opacity: 1; }
+.container.spark-burst .spark-line {
+  animation: spark-pop 700ms ease-out forwards;
+}
+
+/* Staggered delays to make the burst look organic */
+.spark-line:nth-child(1) { animation-delay: 0ms; }
+.spark-line:nth-child(2) { animation-delay: 30ms; }
+.spark-line:nth-child(3) { animation-delay: 60ms; }
+.spark-line:nth-child(4) { animation-delay: 90ms; }
+.spark-line:nth-child(5) { animation-delay: 120ms; }
+.spark-line:nth-child(6) { animation-delay: 150ms; }
+.spark-line:nth-child(7) { animation-delay: 180ms; }
+.spark-line:nth-child(8) { animation-delay: 210ms; }
+
+@keyframes spark-pop {
+  0% { opacity: 0; transform: scaleY(0.08) translateY(0); stroke-width: 0.8; }
+  20% { opacity: 1; transform: scaleY(1.05) translateY(-6px); stroke-width: 2.6; }
+  60% { opacity: 0.9; transform: scaleY(1) translateY(-12px); stroke-width: 1.8; }
+  100% { opacity: 0; transform: scaleY(0.8) translateY(-18px); stroke-width: 1.0; }
+}
+
+/* small timing tweak so the strobe overlay quickly fades out for realism */
+.container .flash-overlay { transition: opacity 200ms ease-out; }
+
+/* Branching lightning strike overlay */
+.bolt-strike {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 160ms linear;
+}
+.bolt-strike.visible {
+  opacity: 1;
+}
+.bolt-strike svg {
+  width: 520px;
+  height: auto;
+  overflow: visible;
+}
+.bolt-strike .glow { opacity: 0.0; transition: opacity 120ms linear; }
+.bolt-strike.visible .glow { opacity: 0.9; }
+
+/* draw animation for trunk core */
+.bolt-strike .core {
+  stroke-dashoffset: 1000;
+  animation: bolt-draw 220ms linear forwards;
+}
+.bolt-strike .bolt-branch.core {
+  stroke-dashoffset: 500;
+  animation: branch-draw 360ms linear forwards;
+}
+
+@keyframes bolt-draw {
+  0% { stroke-dashoffset: 1000; opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+@keyframes branch-draw {
+  0% { stroke-dashoffset: 500; opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+
+/* quick fade of the strike after draw */
+.bolt-strike .core, .bolt-strike .bolt-branch.core {
+  transition: opacity 420ms ease-out 120ms;
 }

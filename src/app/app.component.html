@@ -1,11 +1,64 @@
-<div class="container">
+<div class="container" [class.strobe-active]="strobeActive" [class.spark-burst]="showSparks">
   <div class="speed-force-bg">
-    <svg class="bolt-main" viewBox="0 0 32 32">
-      <path d="M18 3 L6 18 L14 18 L12 29 L24 14 L16 14 L18 3 Z" fill="#ffda00" />
+    <!-- full-screen quick flash overlay (white) -->
+    <div class="flash-overlay" aria-hidden="true"></div>
+    <!-- Large layered bolt watermark with flicker + glow -->
+    <svg class="bolt-main" viewBox="0 0 32 32" aria-hidden="true">
+      <defs>
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="3.5" result="coloredBlur" />
+          <feMerge>
+            <feMergeNode in="coloredBlur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+
+      <!-- soft glow layer -->
+      <path class="bolt-layer bolt-glow" d="M18 3 L6 18 L14 18 L12 29 L24 14 L16 14 L18 3 Z" />
+      <!-- main fill -->
+      <path class="bolt-layer bolt-fill" d="M18 3 L6 18 L14 18 L12 29 L24 14 L16 14 L18 3 Z" />
+      <!-- white core stroke for energy -->
+      <path class="bolt-layer bolt-core" d="M18 3 L6 18 L14 18 L12 29 L24 14 L16 14 L18 3 Z" />
     </svg>
+
+    <!-- Corner accent bolt (animated pulse) -->
+    <svg class="bolt-accent" viewBox="0 0 32 32" aria-hidden="true">
+      <path class="bolt-accent-path" d="M18 3 L6 18 L14 18 L12 29 L24 14 L16 14 L18 3 Z" />
+    </svg>
+
+    <!-- Sparks (radiating lines) -->
+    <svg class="sparks" viewBox="-50 -50 100 100" aria-hidden="true">
+      <g class="spark-group">
+        <line class="spark-line" x1="0" y1="0" x2="0" y2="-30" />
+        <line class="spark-line" x1="0" y1="0" x2="18" y2="-24" />
+        <line class="spark-line" x1="0" y1="0" x2="30" y2="0" />
+        <line class="spark-line" x1="0" y1="0" x2="18" y2="24" />
+        <line class="spark-line" x1="0" y1="0" x2="0" y2="30" />
+        <line class="spark-line" x1="0" y1="0" x2="-18" y2="24" />
+        <line class="spark-line" x1="0" y1="0" x2="-30" y2="0" />
+        <line class="spark-line" x1="0" y1="0" x2="-18" y2="-24" />
+      </g>
+    </svg>
+
+    <!-- Branching lightning strike (generated SVG inserted here) -->
+    <div class="bolt-strike" [class.visible]="boltVisible" [innerHTML]="currentBoltSvg"></div>
   </div>
 
-  <h1>EV Charge Log</h1>
+  <h1>
+    <!-- small inline bolt next to title for the Flash motif -->
+    <svg class="title-bolt" viewBox="0 0 32 32" aria-hidden="true">
+      <path d="M18 3 L6 18 L14 18 L12 29 L24 14 L16 14 L18 3 Z" />
+    </svg>
+    EV Charge Log
+  </h1>
+
+  <!-- Inline confirmation message (replaces alert popup). Appears briefly when a charge is logged. -->
+  <div class="entry-message" [class.visible]="entryMessageVisible" aria-live="polite">
+    <svg class="entry-bolt" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 L5 13 L11 13 L9 22 L19 10 L13 10 L15 2 Z" fill="#fff" /></svg>
+    <span>CHARGE ENTERED</span>
+    <svg class="entry-bolt" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 L5 13 L11 13 L9 22 L19 10 L13 10 L15 2 Z" fill="#fff" /></svg>
+  </div>
 
   <div class="card">
     <label for="chargeDate">Charge Date</label>
