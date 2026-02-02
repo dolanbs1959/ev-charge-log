@@ -1,0 +1,156 @@
+.speed-force-bg {
+  position: absolute; // Relative to the container
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; // Behind text, but inside the app
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.bolt-main {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 350px; // Very large
+  height: 350px;
+  opacity: 0.15;
+  filter: drop-shadow(0 0 15px #ffda00);
+  animation: jitter 0.15s infinite;
+}
+
+.bolt-accent {
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+  width: 100px;
+  height: 100px;
+  opacity: 0.2;
+  filter: drop-shadow(0 0 10px #ffda00);
+  transform: rotate(15deg);
+}
+
+@keyframes jitter {
+  0% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-49%, -51%) scale(1.02); }
+  100% { transform: translate(-51%, -49%) scale(0.98); }
+}
+
+:host {
+  display: block;
+  min-height: 100vh;
+  // Flipped: Deep Ford Blue Gradient Background
+  background: radial-gradient(circle, #002c5f 0%, #000a1a 100%);
+  color: white;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  padding: 30px 20px;
+  max-width: 450px;
+  margin: auto;
+  text-align: center;
+}
+
+h1 {
+  text-transform: uppercase;
+  font-style: italic;
+  font-weight: 900;
+  color: #ffda00; // Flash Yellow Header
+  text-shadow: 2px 2px 0px #8b0000; // Red shadow
+}
+
+.card {
+  /* ... your existing card styles ... */
+  position: relative;
+  z-index: 2;
+  border: 3px solid #8b0000;
+  animation: border-glow 2s infinite alternate;
+}
+
+@keyframes border-glow {
+  from { border-color: #8b0000; box-shadow: 0 0 5px #8b0000; }
+  to { border-color: #ff0800; box-shadow: 0 0 20px #ff0800; }
+}
+
+.card {
+  background: rgba(0, 0, 0, 0.4); 
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  padding: 25px;
+  border-radius: 20px;
+  margin-bottom: 25px;
+  // Flipped: Candy Apple Red Trim
+  border: 3px solid #8b0000; 
+  box-shadow: 0 0 15px rgba(255, 8, 0, 0.3);
+}
+
+label {
+  display: block;
+  text-align: left;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #ffda00; // Flash Yellow for labels
+}
+
+input {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  border: 2px solid #8b0000; // Red border
+  font-size: 18px;
+  background: #fff;
+  color: #333;
+  box-sizing: border-box;
+}
+
+button {
+  width: 100%;
+  padding: 18px;
+  background-color: #8b0000; // Candy Apple Red Button
+  color: white;
+  border: 2px solid #ffda00; // Yellow trim
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 900;
+  text-transform: uppercase;
+  cursor: pointer;
+
+  &:active {
+    background-color: #ff0800;
+  }
+}
+
+// THE LIGHTNING BOLTS
+.bolt-watermark {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  height: 90%;
+  z-index: -1;
+  fill: #ffda00; // Bright Yellow
+  opacity: 0.1; // Subtly in background
+  filter: drop-shadow(0 0 10px #ffda00);
+  animation: speedforce 3s infinite alternate;
+}
+
+@keyframes speedforce {
+  0% { opacity: 0.05; transform: translate(-50%, -50%) scale(0.95); }
+  100% { opacity: 0.15; transform: translate(-50%, -50%) scale(1.05); }
+}
+
+.results strong {
+  color: #ffda00;
+  font-size: 28px;
+}
