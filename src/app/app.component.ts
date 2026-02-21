@@ -26,6 +26,9 @@ export class AppComponent implements OnInit, OnDestroy {
   currentBoltSvg: SafeHtml | null = null;
   boltVisible: boolean = false;
 
+  // Loading state
+  isLoading: boolean = false;
+
   private _strobeTimer: any = null;
   private _strobeOffTimer: any = null;
   private _sparkTimer: any = null;
@@ -166,11 +169,20 @@ submitCharge() {
     const [year, month, day] = this.chargeDate.split('-');
     const formattedDate = `${month}/${day}/${year}`;
     
+    this.isLoading = true;
+
     // We only send date and kWh; cost is calculated client-side from totals and rate
-    this.chargeService.logCharge(this.currentKwh, formattedDate).subscribe(() => {
-      // Show inline flashy confirmation instead of alert popup
-      this.showEntryMessage(3000);
-      this.currentKwh = null;
+    this.chargeService.logCharge(this.currentKwh, formattedDate).subscribe({
+      next: () => {
+        this.isLoading = false;
+        // Show inline flashy confirmation instead of alert popup
+        this.showEntryMessage(3000);
+        this.currentKwh = null;
+      },
+      error: () => {
+        this.isLoading = false;
+        // Ideally handle error here too
+      }
     });
   }
 }
