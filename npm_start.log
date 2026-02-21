@@ -1,0 +1,19 @@
+
+> charge-logger@0.0.0 start
+> ng serve
+
+Component HMR has been enabled, see https://angular.dev/hmr for more info.
+❯ Building...
+✔ Building...
+Initial chunk files | Names         |  Raw size
+polyfills.js        | polyfills     |  89.77 kB |
+main.js             | main          |  50.57 kB |
+styles.css          | styles        |  96 bytes |
+
+                    | Initial total | 140.44 kB
+
+Application bundle generation complete. [2.432 seconds]
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   http://localhost:4200/

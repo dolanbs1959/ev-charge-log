@@ -395,3 +395,31 @@ button {
 .bolt-strike .core, .bolt-strike .bolt-branch.core {
   transition: opacity 420ms ease-out 120ms;
 }
+/* Loading Spinner Overlay */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 6px solid rgba(255, 218, 0, 0.3);
+  border-radius: 50%;
+  border-top-color: #ffda00;
+  animation: spin 1s ease-in-out infinite;
+  box-shadow: 0 0 20px rgba(255, 218, 0, 0.4);
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
