@@ -33,6 +33,9 @@ export class AppComponent implements OnInit, OnDestroy {
   lastEntryDate: string | null = null;
   lastEntryKwh: number | null = null;
 
+  // Google sheet URL
+  googleSheetUrl: string = 'https://docs.google.com/spreadsheets/d/1cQMYKqaFvRM7UZzUZtgH8-jMlv9sROw8jBcPrffCkkk/edit?usp=sharing';
+
   private _strobeTimer: any = null;
   private _strobeOffTimer: any = null;
   private _sparkTimer: any = null;
@@ -213,5 +216,9 @@ submitCharge() {
     this.chargeService.getHistory(this.rangeStart, this.rangeEnd).subscribe((data) => {
       this.totals = data;
     });
+  }
+
+  openSheet() {
+    window.open(this.googleSheetUrl, '_blank');
   }
 }
