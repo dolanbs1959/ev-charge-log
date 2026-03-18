@@ -98,7 +98,9 @@
       title="Enter the electricity rate">
 
   <button (click)="fetchTotals()">Display Totals</button>
-  <button class="sheet-btn" type="button" (click)="openSheet()">Open Logs</button>
+  <button class="sheet-btn" type="button" (click)="openSheet()">
+    Open Logs
+  </button>
   
 <div *ngIf="totals" class="results">
     <p>Total kWh: <strong>{{ totals.kwh }}</strong></p>
