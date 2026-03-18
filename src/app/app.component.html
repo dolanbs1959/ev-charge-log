@@ -61,6 +61,10 @@
   </div>
 
   <div class="card">
+    <button class="sheet-btn" type="button" onclick="window.open('https://docs.google.com/spreadsheets/d/1uUxrrpPTdUnmpgI6ZhEQEqA_jvACeaX8w_CyJMZXEYg/edit?usp=drivesdk', '_blank')">
+      Open Google Sheet
+    </button>
+
     <label for="chargeDate">Charge Date</label>
     <input 
       id="chargeDate"
@@ -109,6 +113,10 @@
 <!-- Loading Spinner Overlay -->
 <div class="loading-overlay" *ngIf="isLoading">
   <div class="spinner"></div>
+</div>
+
+<div class="last-entry-info" *ngIf="lastEntryDate && lastEntryKwh !== null">
+  <p>Last Entry: {{ lastEntryDate }} - {{ lastEntryKwh }} kWh</p>
 </div>
 
 </div>
