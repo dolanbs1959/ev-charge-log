@@ -177,41 +177,45 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
 submitCharge() {
-  if (this.currentKwh && this.chargeDate) {
-    const [year, month, day] = this.chargeDate.split('-');
-    const formattedDate = `${month}/${day}/${year}`;
-    
-    this.isLoading = true;
+    if (this.currentKwh && this.chargeDate) {
+      const [year, month, day] = this.chargeDate.split('-');
+      const formattedDate = `${month}/${day}/${year}`;
 
-    // We only send date and kWh; cost is calculated client-side from totals and rate
-    this.chargeService.logCharge(this.currentKwh, formattedDate).subscribe({
-      next: () => {
-        this.isLoading = false;
+      this.isLoading = true;
 
-        // Update local last entry state
-        this.lastEntryDate = formattedDate;
-        this.lastEntryKwh = this.currentKwh;
+      // We only send date and kWh; cost is calculated client-side from totals and rate
+      this.chargeService.logCharge(this.currentKwh, formattedDate).subscribe({
+        next: () => {
+          this.isLoading = false;
 
-        // Persist to localStorage
-        localStorage.setItem('lastEntryDate', this.lastEntryDate);
-        localStorage.setItem('lastEntryKwh', this.lastEntryKwh!.toString());
+          // Update local last entry state
+          this.lastEntryDate = formattedDate;
+          this.lastEntryKwh = this.currentKwh;
 
-        // Show inline flashy confirmation instead of alert popup
-        this.showEntryMessage(3000);
-        this.currentKwh = null;
-      },
-      error: () => {
-        this.isLoading = false;
-        // Ideally handle error here too
-      }
-    });
+          // Persist to localStorage
+          localStorage.setItem('lastEntryDate', this.lastEntryDate);
+          localStorage.setItem('lastEntryKwh', this.lastEntryKwh!.toString());
+
+          // Show inline flashy confirmation instead of alert popup
+          this.showEntryMessage(3000);
+          this.currentKwh = null;
+        },
+        error: () => {
+          this.isLoading = false;
+          // Ideally handle error here too
+        }
+      });
+    }
   }
-}
 
   fetchTotals() {
     // Now passing BOTH start and end dates to the service
     this.chargeService.getHistory(this.rangeStart, this.rangeEnd).subscribe((data) => {
       this.totals = data;
     });
+  }
+
+  openSheet() {
+    window.open('https://docs.google.com/spreadsheets/d/1cQMYKqaFvRM7UZzUZtgH8-jMlv9sROw8jBcPrffCkkk/edit?usp=sharing', '_blank');
   }
 }
