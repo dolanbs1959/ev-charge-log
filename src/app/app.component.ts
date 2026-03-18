@@ -29,6 +29,10 @@ export class AppComponent implements OnInit, OnDestroy {
   // Loading state
   isLoading: boolean = false;
 
+  // Last entry state
+  lastEntryDate: string | null = null;
+  lastEntryKwh: number | null = null;
+
   private _strobeTimer: any = null;
   private _strobeOffTimer: any = null;
   private _sparkTimer: any = null;
@@ -38,6 +42,14 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.startStrobeLoop();
+
+    // Retrieve last entry from localStorage
+    const savedDate = localStorage.getItem('lastEntryDate');
+    const savedKwh = localStorage.getItem('lastEntryKwh');
+    if (savedDate && savedKwh !== null) {
+      this.lastEntryDate = savedDate;
+      this.lastEntryKwh = Number(savedKwh);
+    }
   }
 
   ngOnDestroy(): void {
@@ -175,6 +187,15 @@ submitCharge() {
     this.chargeService.logCharge(this.currentKwh, formattedDate).subscribe({
       next: () => {
         this.isLoading = false;
+
+        // Update local last entry state
+        this.lastEntryDate = formattedDate;
+        this.lastEntryKwh = this.currentKwh;
+
+        // Persist to localStorage
+        localStorage.setItem('lastEntryDate', this.lastEntryDate);
+        localStorage.setItem('lastEntryKwh', this.lastEntryKwh!.toString());
+
         // Show inline flashy confirmation instead of alert popup
         this.showEntryMessage(3000);
         this.currentKwh = null;
